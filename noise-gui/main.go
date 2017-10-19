@@ -24,6 +24,7 @@ var octaves uint = 2
 var frequency float64 = 16.0
 var lacunarity float64 = 2.5
 var persistence float64 = 0.75
+var applyFilter bool = false
 
 const octaveStep uint = 1
 const frequencyStep float64 = 0.5
@@ -122,6 +123,14 @@ func openWindow() {
 			change = true
 		}
 
+		// apply filter control
+		if win.Pressed(pixelgl.KeyF) {
+
+			applyFilter = !applyFilter
+			fmt.Println("Toggling filter")
+			change = true
+		}
+
 		// only update image if necessary
 		if change {
 
@@ -146,11 +155,29 @@ func matrix2img(m [][]uint8) *image.RGBA {
 	for i := 0; i < imgHeight; i++ {
 		for j := 0; j < imgWidth; j++ {
 			scale := m[i][j]
-			img.Set(j, i, color.RGBA{scale, scale, scale, 255})
+			img.Set(j, i, getColor(scale))
 		}
 	}
 
 	return img
+}
+
+func getColor(scale uint8) color.RGBA {
+
+	if applyFilter {
+
+		if scale < 127 {
+			return color.RGBA{0, 0, 255, 255}
+		} else if scale < 137 {
+			return color.RGBA{239, 221, 111, 255}
+		} else if scale < 180 {
+			return color.RGBA{44, 176, 55, 255}
+		} else {
+			return color.RGBA{165, 42, 42, 255}
+		}
+	} else {
+		return color.RGBA{scale, scale, scale, 255}
+	}
 }
 
 func clampUint(value, min, max uint) uint {
