@@ -1,5 +1,5 @@
 run:
-	go run github.com/htaunay/noise/cmd/root.go
+	go run cmd/main.go
 
 test:
 	go test github.com/htaunay/noise
