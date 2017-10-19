@@ -21,6 +21,8 @@ import (
 	"image/color"
 	"image/png"
 	"os"
+	"os/user"
+	"strings"
 
 	// 3rd party
 	"github.com/spf13/cobra"
@@ -33,6 +35,14 @@ import (
 func main() {
 	Execute()
 }
+
+// Parameter vars
+var imageSize uint
+var octaves uint
+var frequency float64
+var lacunarity float64
+var persistence float64
+var outputFile string
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
@@ -54,18 +64,31 @@ func Execute() {
 	}
 
 	ops := noise.NoiseOptions{
-		Size:        640,
-		Octaves:     2,
-		Frequency:   16.0,
-		Lacunarity:  2.5,
-		Persistence: 0.75,
+		Size:        imageSize,
+		Octaves:     octaves,
+		Frequency:   frequency,
+		Lacunarity:  lacunarity,
+		Persistence: persistence,
 	}
 
 	matrix := noise.Build(ops)
 	img := matrix2img(matrix)
 
+	// Get user info
+	usr, err := user.Current()
+	if err != nil {
+		panic(err)
+	}
+
+	// Solve HOME dir
+	outputFile = strings.Replace(outputFile, "~", usr.HomeDir, 1)
+	// Add png, if missing
+	if !strings.HasSuffix(outputFile, ".png") {
+		outputFile += ".png"
+	}
+
 	// Write to disk
-	file, err := os.Create("noise.png")
+	file, err := os.Create(outputFile)
 	if err != nil {
 		panic(err)
 	}
@@ -77,6 +100,55 @@ func Execute() {
 func init() {
 
 	cobra.OnInitialize(initConfig)
+
+	RootCmd.PersistentFlags().UintVarP(
+		&imageSize,
+		"size",
+		"s",
+		640,
+		"Size, in pixels, of the square-shaped generated image",
+	)
+
+	RootCmd.PersistentFlags().UintVarP(
+		&octaves,
+		"octaves",
+		"o",
+		2,
+		`Number of times noise functions with varying amplitude and frequencies
+		will be added. When set to 1, only one layer is calculated`,
+	)
+
+	RootCmd.PersistentFlags().Float64VarP(
+		&frequency,
+		"frequency",
+		"q",
+		16.0,
+		"Period at which the data will be sampled",
+	)
+
+	RootCmd.PersistentFlags().Float64VarP(
+		&lacunarity,
+		"lacunarity",
+		"l",
+		2.5,
+		"Multiplier that determines how quickly the frequency increases for each successive octave",
+	)
+
+	RootCmd.PersistentFlags().Float64VarP(
+		&persistence,
+		"persistence",
+		"p",
+		0.75,
+		"Multiplier that determines how quickly the amplitudes diminish for each successive octave",
+	)
+
+	RootCmd.PersistentFlags().StringVarP(
+		&outputFile,
+		"file",
+		"f",
+		"noise.png",
+		"Output file path",
+	)
 }
 
 // initConfig reads in config file and ENV variables if set.
