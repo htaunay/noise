@@ -174,7 +174,7 @@ func sum(x float64, y float64, opts NoiseOptions) float64 {
 		localFrequency *= opts.Lacunarity
 		amplitude *= opts.Persistence
 		breadth += amplitude
-		sum += noise(x, y, opts.Frequency) * amplitude
+		sum += noise(x, y, localFrequency) * amplitude
 	}
 
 	return sum / breadth
