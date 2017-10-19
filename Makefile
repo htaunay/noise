@@ -11,5 +11,8 @@ test:
 	go test $(PROJECT_PATH)
 
 depends:
-	go get -u github.com/spf13/cobra 
-	go get -u github.com/spf13/viper 
+	go get -u -v github.com/spf13/cobra 
+	go get -u -v github.com/spf13/viper 
+	go get -u -v github.com/go-gl/glfw
+	go get -u -v github.com/faiface/glhf
+	go get -u -v github.com/faiface/pixel
