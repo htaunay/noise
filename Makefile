@@ -6,6 +6,7 @@ cli:
 install:
 	go install $(PROJECT_PATH)
 	go install $(PROJECT_PATH)/noise-cli
+	go install $(PROJECT_PATH)/noise-gui
 
 test:
 	go test $(PROJECT_PATH)
