@@ -1,8 +1,14 @@
-run:
-	go run cmd/main.go
+PROJECT_PATH=github.com/htaunay/noise
+
+cli:
+	go run noise-cli/main.go
+
+install:
+	go install $(PROJECT_PATH)
+	go install $(PROJECT_PATH)/noise-cli
 
 test:
-	go test github.com/htaunay/noise
+	go test $(PROJECT_PATH)
 
 depends:
 	go get -u github.com/spf13/cobra 

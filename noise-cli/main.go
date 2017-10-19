@@ -21,7 +21,6 @@ import (
 	"image/color"
 	"image/png"
 	"os"
-	"os/user"
 
 	// 3rd party
 	"github.com/spf13/cobra"
@@ -37,10 +36,12 @@ func main() {
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "mapgenerator",
-	Short: "A command line random map generator",
-	Long: `A command line random map generator, based on the Simplex Noise
-    algorithm. The output is in PNG, and only 2D resolution is supported.`,
+	Use:   "noise-cli",
+	Short: "A command line interface for the noise package",
+	// Long: TODO
+	Run: func(cmd *cobra.Command, args []string) {
+		// empty
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -63,22 +64,19 @@ func Execute() {
 	matrix := noise.Build(ops)
 	img := matrix2img(matrix)
 
-	usr, err := user.Current()
+	// Write to disk
+	file, err := os.Create("noise.png")
 	if err != nil {
 		panic(err)
 	}
-
-	file, err := os.Create(usr.HomeDir + "/Desktop/perlin.png")
-	if err != nil {
-		panic(err)
-	}
-
 	defer file.Close()
 	png.Encode(file, img)
 }
 
+// Get called automatically on startup
 func init() {
-	// empty
+
+	cobra.OnInitialize(initConfig)
 }
 
 // initConfig reads in config file and ENV variables if set.
