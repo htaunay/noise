@@ -42,6 +42,7 @@ var octaves uint
 var frequency float64
 var lacunarity float64
 var persistence float64
+var channels uint
 var outputFile string
 
 // RootCmd represents the base command when called without any subcommands
@@ -69,6 +70,7 @@ func Execute() {
 		Frequency:   frequency,
 		Lacunarity:  lacunarity,
 		Persistence: persistence,
+		Channels:    channels,
 	}
 
 	matrix := noise.Build(ops)
@@ -140,6 +142,14 @@ func init() {
 		"p",
 		0.75,
 		"Multiplier that determines how quickly the amplitudes diminish for each successive octave",
+	)
+
+	RootCmd.PersistentFlags().UintVarP(
+		&channels,
+		"channels",
+		"j",
+		1,
+		"Number of channels to try to break the noise computation into and run in parallel",
 	)
 
 	RootCmd.PersistentFlags().StringVarP(

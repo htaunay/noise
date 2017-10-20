@@ -9,7 +9,7 @@ install:
 	go install $(PROJECT_PATH)/noise-gui
 
 test:
-	go test $(PROJECT_PATH)
+	go test $(PROJECT_PATH) -v
 
 depends:
 	go get -u -v github.com/spf13/cobra 

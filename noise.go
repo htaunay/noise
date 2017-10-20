@@ -22,27 +22,43 @@ type NoiseOptions struct {
 	Frequency   float64
 	Lacunarity  float64
 	Persistence float64
+	Channels    uint
 }
 
 func Build(opts NoiseOptions) [][]uint8 {
 
+	// allocate space
 	matrix := make([][]uint8, opts.Size)
 	for i := 0; i < int(opts.Size); i++ {
+		matrix[i] = make([]uint8, opts.Size)
+	}
+
+	ch := make(chan bool, opts.Channels)
+	offset := opts.Size / opts.Channels
+	for i := 0; i < int(opts.Size); i += int(offset) {
+		go populate(matrix, i, int(offset), opts, ch)
+	}
+
+	<-ch
+	return matrix
+}
+
+func populate(m [][]uint8, iStart int, iOffset int, opts NoiseOptions, ch chan bool) {
+
+	for i := iStart; i < (iStart + iOffset); i++ {
 
 		y := float64(i) / float64(opts.Size)
-		matrix[i] = make([]uint8, opts.Size)
-
 		for j := 0; j < int(opts.Size); j++ {
 
 			x := float64(j) / float64(opts.Size)
 			//sample := noise(x,y,opts.frequency) * 0.5 + 0.5
 			sample := sum(x, y, opts)*0.5 + 0.5
 			scale := uint8(sample * 255.0)
-			matrix[i][j] = scale
+			m[i][j] = scale
 		}
 	}
 
-	return matrix
+	ch <- true
 }
 
 // Auxiliary vec2 type

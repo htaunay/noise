@@ -50,6 +50,7 @@ func openWindow() {
 		Frequency:   frequency,
 		Lacunarity:  lacunarity,
 		Persistence: persistence,
+		Channels:    1,
 	}
 
 	matrix := noise.Build(opts)

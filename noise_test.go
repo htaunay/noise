@@ -14,18 +14,48 @@
 
 package noise
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+	"time"
+)
 
 // TODO: basic unit tests
 func TestNoise(t *testing.T) {
 
-	ops := NoiseOptions{
-		Size:        640,
+	opts := NoiseOptions{
+		Size:        4096,
 		Octaves:     2,
 		Frequency:   16.0,
 		Lacunarity:  2.5,
 		Persistence: 0.75,
+		Channels:    1,
 	}
 
-	Build(ops)
+	var elapsed time.Duration
+	elapsed = timeTest(1, opts)
+	fmt.Printf("Time to run with %d channel(s) = %s\n", 1, elapsed)
+	elapsed = timeTest(2, opts)
+	fmt.Printf("Time to run with %d channel(s) = %s\n", 2, elapsed)
+	elapsed = timeTest(4, opts)
+	fmt.Printf("Time to run with %d channel(s) = %s\n", 4, elapsed)
+	elapsed = timeTest(8, opts)
+	fmt.Printf("Time to run with %d channel(s) = %s\n", 8, elapsed)
+	elapsed = timeTest(16, opts)
+	fmt.Printf("Time to run with %d channel(s) = %s\n", 16, elapsed)
+	elapsed = timeTest(32, opts)
+	fmt.Printf("Time to run with %d channel(s) = %s\n", 32, elapsed)
+	elapsed = timeTest(64, opts)
+	fmt.Printf("Time to run with %d channel(s) = %s\n", 64, elapsed)
+}
+
+func timeTest(channels int, opts NoiseOptions) time.Duration {
+
+	opts.Channels = uint(channels)
+	start := time.Now()
+	Build(opts)
+	end := time.Now()
+	elapsed := end.Sub(start)
+
+	return elapsed
 }
