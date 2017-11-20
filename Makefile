@@ -3,6 +3,9 @@ PROJECT_PATH=github.com/htaunay/noise
 cli:
 	go run noise-cli/main.go
 
+gui:
+	go run noise-gui/main.go
+
 install:
 	go install $(PROJECT_PATH)
 	go install $(PROJECT_PATH)/noise-cli
