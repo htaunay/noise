@@ -22,6 +22,8 @@ type NoiseOptions struct {
 	Frequency   float64
 	Lacunarity  float64
 	Persistence float64
+	XOffset     float64
+	YOffset     float64
 	Channels    uint
 }
 
@@ -34,9 +36,9 @@ func Build(opts NoiseOptions) [][]uint8 {
 	}
 
 	ch := make(chan bool, opts.Channels)
-	offset := opts.Size / opts.Channels
-	for i := 0; i < int(opts.Size); i += int(offset) {
-		go populate(matrix, i, int(offset), opts, ch)
+	channelOffset := opts.Size / opts.Channels
+	for i := 0; i < int(opts.Size); i += int(channelOffset) {
+		go populate(matrix, i, int(channelOffset), opts, ch)
 	}
 
 	<-ch
@@ -47,10 +49,10 @@ func populate(m [][]uint8, iStart int, iOffset int, opts NoiseOptions, ch chan b
 
 	for i := iStart; i < (iStart + iOffset); i++ {
 
-		y := float64(i) / float64(opts.Size)
+		y := float64(i)/float64(opts.Size) + opts.YOffset/opts.Frequency
 		for j := 0; j < int(opts.Size); j++ {
 
-			x := float64(j) / float64(opts.Size)
+			x := float64(j)/float64(opts.Size) + opts.XOffset/opts.Frequency
 			//sample := noise(x,y,opts.frequency) * 0.5 + 0.5
 			sample := sum(x, y, opts)*0.5 + 0.5
 			scale := uint8(sample * 255.0)
@@ -126,9 +128,8 @@ var grad = [...]vec2{
 
 func noise(x, y, frequency float64) float64 {
 
-	fx := x * float64(frequency)
-	fy := y * float64(frequency)
-
+	fx := x * frequency
+	fy := y * frequency
 	ix0 := int(fx)
 	iy0 := int(fy)
 	tx0 := fx - float64(ix0)
