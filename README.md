@@ -7,6 +7,13 @@ It comes with both CLI and GUI built in, but can also be used directly as a
 library. In this README you will find examples of how to use noise with each
 of these approaches.
 
+* [Installation](#installation)
+* [Parameters](#paramters)
+* [Package](#package)
+* [CLI](#cli)
+* [GUI](#gui)
+* [References](#references)
+
 ## Installation
 
 ```bash
@@ -20,6 +27,12 @@ make install
 ## Parameters
 
 The noise package's interface is basically a single function that receives
+the `NoiseOptions struct` and from it generates as an output a 2D matrix of
+values varying from 0-255.
+
+However, in order to use it properly, it is recommended to understand
+well how each of the parameters influences the pseudo-random texture
+generation.
 
 #### Image Size
 
@@ -27,13 +40,13 @@ Side of square texture length, in pixels
 
 #### Frequency
 
-Period at which data is sampled. Think as this param as defining how many
+Period at which data is sampled. Think of it as way of defining how many
 variations (i.e tiles) of the noise will appear in a side of the texture,
 e.g. if the **frequency** is set to two, you would have 2x2 samples in the
 output.
 
-This parameters accepts floats, and therefore if you give it a non-integer,
-the trailing sampled data in each dimension will be capped accordingly.
+This parameters accepts floats, and therefore if you give it a non-integer
+input, the trailing sampled data in each dimension will be capped accordingly.
 
 #### Octaves
 
@@ -48,20 +61,24 @@ the **frequency** and **offsets** will infleunce the generation of the texture.
 Multiplier that determines how quickly the frequency increases for each
 successive octave.
 
+The initial ratio starts at 1.0 for the first layer, add is multiplied by the
+**lacunarity** on each extra octave.
+
 #### Persistence
 
 Determines how much influence should each successive octave have, quantitatively
 over the previous one.
 
 Influence starts at 1.0 for the first layer, add is multiplied by the
-persistence on each extra octave.
+**persistence** on each extra octave.
 
 #### Offsets
 
 Horizontal and vertical ratios for which the sample generation will be shifted.
 
 The amount is based of the textures size, e.g. an offset of 1.0 means that a
-given axis will start exactly after the last pixel of the original sample.
+given axis will start exactly after the last pixel of sample generated with
+the default value of 0.
 
 The x-axis shifts to the right, while the y-axis shifts downward.
 
@@ -84,7 +101,7 @@ opts := noise.NoiseOptions{
 }
 
 // returns [][]uint8 with values varying from 0-255
-matrix := noise.Build(ops)
+matrix := noise.Build(opts)
 ```
 
 ## CLI
@@ -113,7 +130,7 @@ cd $GOPATH/bin
 noise-gui
 ```
 
-### Commands
+### GUI Commands
 
 #### X and Y Offsets
 
