@@ -6,7 +6,7 @@ cli:
 gui:
 	go run noise-gui/main.go
 
-install:
+install: depends
 	go install $(PROJECT_PATH)
 	go install $(PROJECT_PATH)/noise-cli
 	go install $(PROJECT_PATH)/noise-gui
@@ -15,8 +15,8 @@ test:
 	go test $(PROJECT_PATH) -v
 
 depends:
-	go get -u -v github.com/spf13/cobra 
-	go get -u -v github.com/spf13/viper 
-	go get -u -v github.com/go-gl/glfw
-	go get -u -v github.com/faiface/glhf
-	go get -u -v github.com/faiface/pixel
+	go get -v github.com/spf13/cobra
+	go get -v github.com/spf13/viper
+	go get -v github.com/go-gl/glfw/v3.2/glfw
+	go get -v github.com/faiface/glhf
+	go get -v github.com/faiface/pixel
