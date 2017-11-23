@@ -6,9 +6,5 @@ go:
   - 1.7.x
   - master
 
-
-before_install:
-  - make install
-
 script:
-  - make test 
+  - make travis 
