@@ -15,6 +15,7 @@ of these approaches.
 	* [Lacunarity](#lacunarity)
 	* [Persistence](#persistence)
 	* [Offsets](#offsets)
+	* [Channels](#channels)
 * [Package](#package)
 * [CLI](#cli)
 * [GUI](#gui)
@@ -88,6 +89,13 @@ given axis will start exactly after the last pixel of sample generated with
 the default value of 0.
 
 The x-axis shifts to the right, while the y-axis shifts downward.
+
+#### Channels
+
+Number of Go channels to be used during texture generation. What happens here
+is that all lines of a randomly generated texture are distributed equally
+between each channel, and therefore can be processed in parallel (within each
+hardware's limitation).
 
 ## Package
 
