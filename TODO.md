@@ -4,16 +4,21 @@ TODO
 ## Backlog
 
 [ ] Unit tests
-[ ] Image with example applied on 3D model
+[ ] Verbose mode for GUI
 [ ] Logging
+
+## 0.2.0
+
+[ ] Example with map filter
+[ ] Image with example applied on 3D model
 [ ] Public `Filter` method (add to README in 'package' section)
 [ ] Configs at $HOME
 [ ] Saved filter files
 
-## 0.1.1
+## 0.1.1 23/11/2017
 
 [x] Parralelism support
-[ ] README with dox
+[x] README with dox
 [x] Version and param validation in CLI
 [x] Performance test
 [x] Offset support
