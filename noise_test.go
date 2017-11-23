@@ -20,8 +20,7 @@ import (
 	"time"
 )
 
-// TODO: basic unit tests
-func TestNoise(t *testing.T) {
+func PerformanceTest(t *testing.T) {
 
 	opts := NoiseOptions{
 		Size:        4096,
