@@ -16,7 +16,7 @@ package main
 
 import (
 	// std packages
-	"fmt"
+	// "fmt"
 	"image"
 	"image/color"
 
@@ -93,53 +93,53 @@ func openWindow() {
 
 		// octave control
 		if win.JustPressed(pixelgl.KeyO) {
-			fmt.Printf("Octave from %d ", opts.Octaves)
+			// fmt.Printf("Octave from %d ", opts.Octaves)
 			if shift {
 				opts.Octaves -= octaveStep
 			} else {
 				opts.Octaves += octaveStep
 			}
 			opts.Octaves = clampUint(int(opts.Octaves), 1, 8)
-			fmt.Printf("to %d\n", opts.Octaves)
+			// fmt.Printf("to %d\n", opts.Octaves)
 			change = true
 		}
 
 		// frequency control
 		if win.Pressed(pixelgl.KeyQ) {
-			fmt.Printf("Frequency from %f ", opts.Frequency)
+			// fmt.Printf("Frequency from %f ", opts.Frequency)
 			if shift {
 				opts.Frequency -= frequencyStep
 			} else {
 				opts.Frequency += frequencyStep
 			}
 			opts.Frequency = clampFloat64(opts.Frequency, 0.1, 128.0)
-			fmt.Printf("to %f\n", opts.Frequency)
+			// fmt.Printf("to %f\n", opts.Frequency)
 			change = true
 		}
 
 		// lacunarity control
 		if win.Pressed(pixelgl.KeyL) {
-			fmt.Printf("Lacunarity from %f ", opts.Lacunarity)
+			// fmt.Printf("Lacunarity from %f ", opts.Lacunarity)
 			if shift {
 				opts.Lacunarity -= lacunarityStep
 			} else {
 				opts.Lacunarity += lacunarityStep
 			}
 			opts.Lacunarity = clampFloat64(opts.Lacunarity, 1.0, 4.0)
-			fmt.Printf("to %f\n", opts.Lacunarity)
+			// fmt.Printf("to %f\n", opts.Lacunarity)
 			change = true
 		}
 
 		// persistence control
 		if win.Pressed(pixelgl.KeyP) {
-			fmt.Printf("Persistence from %f ", opts.Persistence)
+			// fmt.Printf("Persistence from %f ", opts.Persistence)
 			if shift {
 				opts.Persistence -= persistenceStep
 			} else {
 				opts.Persistence += persistenceStep
 			}
 			opts.Persistence = clampFloat64(opts.Persistence, 0.0, 1.0)
-			fmt.Printf("to %f\n", opts.Persistence)
+			// fmt.Printf("to %f\n", opts.Persistence)
 			change = true
 		}
 
@@ -160,20 +160,20 @@ func openWindow() {
 		}
 
 		if xDiff != 0 || yDiff != 0 {
-			fmt.Printf("Offset from %.2f/%.2f ", opts.XOffset, opts.YOffset)
+			// fmt.Printf("Offset from %.2f/%.2f ", opts.XOffset, opts.YOffset)
 			x := opts.XOffset + xDiff
 			y := opts.YOffset + yDiff
 			opts.XOffset = clampFloat64(x, 0, 1024*1024)
 			opts.YOffset = clampFloat64(y, 0, 1024*1024)
-			fmt.Printf("to %.2f/%.2f\n", opts.XOffset, opts.YOffset)
+			// fmt.Printf("to %.2f/%.2f\n", opts.XOffset, opts.YOffset)
 			change = true
 		}
 
 		// apply filter control
-		if win.Pressed(pixelgl.KeyF) {
+		if win.JustPressed(pixelgl.KeyF) {
 
 			applyFilter = !applyFilter
-			fmt.Println("Toggling filter")
+			// fmt.Println("Toggling filter")
 			change = true
 		}
 
