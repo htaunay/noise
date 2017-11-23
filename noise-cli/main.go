@@ -109,6 +109,8 @@ func Execute() {
 	}
 	defer file.Close()
 	png.Encode(file, img)
+
+	fmt.Println("Texture generated at path: ", outputFile)
 }
 
 // Get called automatically on startup
@@ -120,7 +122,7 @@ func init() {
 		&imageSize,
 		"size",
 		"s",
-		640,
+		1024,
 		"Size, in pixels, of the square-shaped generated image",
 	)
 
@@ -128,9 +130,8 @@ func init() {
 		&octaves,
 		"octaves",
 		"o",
-		2,
-		`Number of times noise functions with varying amplitude and frequencies
-		will be added. When set to 1, only one layer is calculated`,
+		1,
+		`Number of layers that will be applied`,
 	)
 
 	RootCmd.PersistentFlags().Float64VarP(
@@ -146,7 +147,7 @@ func init() {
 		"lacunarity",
 		"l",
 		2.5,
-		"Multiplier that determines how quickly the frequency increases for each successive octave",
+		"Multiplier for how quickly the frequency increases for each successive octave",
 	)
 
 	RootCmd.PersistentFlags().Float64VarP(
