@@ -1,2 +1,5 @@
 # vim
 .*.sw[pmno]
+
+# default image output
+noise.png
