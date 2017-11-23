@@ -20,7 +20,7 @@ import (
 	"time"
 )
 
-func PerformanceTest(t *testing.T) {
+func TestNoisePerformance(t *testing.T) {
 
 	opts := NoiseOptions{
 		Size:        4096,
