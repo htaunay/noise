@@ -42,6 +42,8 @@ var octaves uint
 var frequency float64
 var lacunarity float64
 var persistence float64
+var xOffset float64
+var yOffset float64
 var channels uint
 var outputFile string
 
@@ -64,16 +66,27 @@ func Execute() {
 		os.Exit(1)
 	}
 
-	ops := noise.NoiseOptions{
+	opts := noise.NoiseOptions{
 		Size:        imageSize,
 		Octaves:     octaves,
 		Frequency:   frequency,
 		Lacunarity:  lacunarity,
 		Persistence: persistence,
+		XOffset:     xOffset,
+		YOffset:     yOffset,
 		Channels:    channels,
 	}
 
-	matrix := noise.Build(ops)
+	validationErrors := validateParams(opts)
+	if len(validationErrors) > 0 {
+		fmt.Println("The following given parameters are invalid:")
+		for _, v := range validationErrors {
+			fmt.Println("\t* ", v)
+		}
+		os.Exit(1)
+	}
+
+	matrix := noise.Build(opts)
 	img := matrix2img(matrix)
 
 	// Get user info
@@ -141,7 +154,23 @@ func init() {
 		"persistence",
 		"p",
 		0.75,
-		"Multiplier that determines how quickly the amplitudes diminish for each successive octave",
+		"Multiplier for how quickly the amplitudes diminish for each successive octave",
+	)
+
+	RootCmd.PersistentFlags().Float64VarP(
+		&xOffset,
+		"xoffset",
+		"x",
+		0,
+		"Ratio of horizontal offset (default 0.0)",
+	)
+
+	RootCmd.PersistentFlags().Float64VarP(
+		&yOffset,
+		"yoffset",
+		"y",
+		0,
+		"Ratio of vertical offset (default 0.0)",
 	)
 
 	RootCmd.PersistentFlags().UintVarP(
@@ -164,6 +193,45 @@ func init() {
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
 	// empty
+}
+
+func validateParams(opts noise.NoiseOptions) []string {
+
+	var errors []string
+
+	if opts.Size < 4 {
+		errors = append(errors, "Image size is less than the minimum of 4")
+	}
+
+	if opts.Octaves < 1 {
+		errors = append(errors, "Octaves count is less than the minimum of 1")
+	}
+
+	if opts.Frequency < 0.5 {
+		errors = append(errors, "Frequency is less than the minimum of 0.5")
+	}
+
+	if opts.Lacunarity < 1 {
+		errors = append(errors, "Lacunarity is less than the minimum of 1")
+	}
+
+	if opts.Persistence < 0 {
+		errors = append(errors, "Persistence is less than the minimum of 0")
+	}
+
+	if opts.XOffset < 0 {
+		errors = append(errors, "X-axis offset is less than the minimum of 0")
+	}
+
+	if opts.YOffset < 0 {
+		errors = append(errors, "Y-axis offset is less than the minimum of 0")
+	}
+
+	if opts.Channels < 1 {
+		errors = append(errors, "Channels is less than the minimum of 1")
+	}
+
+	return errors
 }
 
 func matrix2img(m [][]uint8) *image.RGBA {
