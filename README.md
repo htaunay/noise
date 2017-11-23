@@ -8,10 +8,17 @@ library. In this README you will find examples of how to use noise with each
 of these approaches.
 
 * [Installation](#installation)
-* [Parameters](#paramters)
+* [Parameters](#parameters)
+	* [Image Size](#image-size)
+	* [Frequency](#frequency)
+	* [Octaves](#octaves)
+	* [Lacunarity](#lacunarity)
+	* [Persistence](#persistence)
+	* [Offsets](#offsets)
 * [Package](#package)
 * [CLI](#cli)
 * [GUI](#gui)
+	* [GUI Commands](#gui-commands)
 * [References](#references)
 
 ## Installation
