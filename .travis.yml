@@ -9,3 +9,6 @@ go:
 
 before_install:
   - make install
+
+script:
+  - make test 
