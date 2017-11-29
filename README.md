@@ -31,9 +31,15 @@ of these approaches.
 git clone git@github.com:htaunay/noise.git
 cd $GOPATH/github.com/htaunay/noise
 
-# installs necessary dependencies as well
+# installs necessary Go dependencies
 make install
 ```
+
+The install script **only** takes care of dependencies in Go, however GLFW has
+different dependencies for each OS, read more about them
+[here](https://github.com/go-gl/glfw#installation), or see this working
+example for Debian-like distributions
+[here](https://github.com/htaunay/noise/blob/master/.travis.yml).
 
 ## Parameters
 

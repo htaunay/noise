@@ -6,5 +6,13 @@ go:
   - 1.7.x
   - master
 
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libgl1-mesa-dev
+  - sudo apt-get install -y xorg-dev
+
+install:
+  - make install
+
 script:
-  - make travis 
+  - make test
