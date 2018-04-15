@@ -36,18 +36,20 @@ func Build(opts NoiseOptions) [][]uint8 {
 	}
 
 	ch := make(chan bool, opts.Channels)
-	channelOffset := opts.Size / opts.Channels
-	for i := 0; i < int(opts.Size); i += int(channelOffset) {
-		go populate(matrix, i, int(channelOffset), opts, ch)
+	chunkSize := int(opts.Size / opts.Channels)
+	for i := 0; i < int(opts.Size); i += chunkSize {
+		go populate(matrix, i, opts, ch)
 	}
 
 	<-ch
 	return matrix
 }
 
-func populate(m [][]uint8, iStart int, iOffset int, opts NoiseOptions, ch chan bool) {
+func populate(m [][]uint8, iStart int, opts NoiseOptions, ch chan bool) {
 
-	for i := iStart; i < (iStart + iOffset); i++ {
+	channelOffset := int(opts.Size / opts.Channels)
+	iEnd := min(iStart+channelOffset, int(opts.Size))
+	for i := iStart; i < iEnd; i++ {
 
 		y := float64(i)/float64(opts.Size) + opts.YOffset/opts.Frequency
 		for j := 0; j < int(opts.Size); j++ {
@@ -149,6 +151,13 @@ func noise(x, y, frequency float64) float64 {
 	noise := lerp(l1, l2, ty) * math.Sqrt(2.0)
 
 	return noise
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 func smooth(t float64) float64 {
