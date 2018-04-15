@@ -156,29 +156,15 @@ noise-gui
 
 ### GUI Commands
 
-#### X and Y Offsets
-
-Controlled by the arrow keys (←,↑,→,↓)
-
-#### Frequency
-
-**Q**-key increases frequency, and while holding **Shift** it decreases
-
-#### Octaves
-
-**O**-key increases the count of octaves, and while holding **Shift** it decreases
-
-#### Lacunarity
-
-**L**-key increases lacunarity, and while holding **Shift** it decreases
-
-#### Persistence
-
-**P**-key increases persistence, and while holding **Shift** it decreases
-
-#### Filter
-
-**F**-key toggles the default filter
+|Keys           |Command             |Shift modifier      |
+|---------------|--------------------|--------------------|
+|←  and → arrows|Move **X** offse    | *none*             |
+|↑ and ↓ arrows |Move **Y** offset   | *none*             |
+| **Q** key     |Increase frequency  |Decrease frequency  |
+| **O** key     |Increase octaves    |Decrease octaves    |
+| **L** key     |Increase lacunarity |Decrease lacunarity |
+| **P** key     |Increase persistence|Decrease persistence|
+| **F** key     |Toggle filter       | *node*             |
 
 ## References
 
