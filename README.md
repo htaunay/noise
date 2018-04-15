@@ -164,7 +164,7 @@ noise-gui
 | **O** key     |Increase octaves    |Decrease octaves    |
 | **L** key     |Increase lacunarity |Decrease lacunarity |
 | **P** key     |Increase persistence|Decrease persistence|
-| **F** key     |Toggle filter       | *node*             |
+| **F** key     |Toggle filter       | *none*             |
 
 ## References
 
