@@ -158,7 +158,7 @@ noise-gui
 
 |Keys           |Command             |Shift modifier      |
 |---------------|--------------------|--------------------|
-|←  and → arrows|Move **X** offse    | *none*             |
+|←  and → arrows|Move **X** offset   | *none*             |
 |↑ and ↓ arrows |Move **Y** offset   | *none*             |
 | **Q** key     |Increase frequency  |Decrease frequency  |
 | **O** key     |Increase octaves    |Decrease octaves    |
